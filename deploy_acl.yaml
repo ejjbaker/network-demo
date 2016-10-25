@@ -1,0 +1,10 @@
+---
+- name: configure devices
+  hosts: all
+
+  roles:
+    - name: configure acl entries on devices
+      role: acl
+
+    - name: backup existing config to local host
+      role: backup

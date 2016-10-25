@@ -1,0 +1,26 @@
+---
+- name: get current running-config
+  eos_command:
+    commands:
+      - command: show running-config
+        output: text
+    provider: "{{ eapi }}"
+  register: config
+
+- name: get current configured ntp servers
+  set_fact: _servers="{{ config.stdout[0] | regex_findall('^ntp server (\S+)') }}"
+
+- name: remove old ntp servers
+  eos_config:
+    lines:
+      - "no ntp server {{ item }}"
+    provider: "{{ provider }}"
+    force: yes
+  with_items: "{{ _servers }}"
+  when: item not in ntp_servers
+
+- name: configure eos ntp parameters
+  eos_config:
+    src: eos.j2
+    provider: "{{ provider }}"
+

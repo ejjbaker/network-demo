@@ -1,0 +1,11 @@
+---
+- name: verify device_os fact is set
+  fail: msg='device_os is required'
+  when: device_os is not defined
+
+- name: "include {{ device_os }} tasks"
+  include: "{{ item }}"
+  with_first_found:
+    - files: "{{ device_os }}.yaml"
+      skip: true
+      paths: tasks
