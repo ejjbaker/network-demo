@@ -1,0 +1,9 @@
+---
+- name: enable eapi http
+  eos_config:
+    lines:
+      - shutdown
+    parents: management api http-commands
+    defaults: yes
+    provider: "{{ cli }}"
+

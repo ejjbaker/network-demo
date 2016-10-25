@@ -1,0 +1,12 @@
+---
+- name: enable eapi on arista eos nodes
+  hosts: eos
+
+  tasks:
+    - name: configure eapi
+      include: "{{ item }}"
+      with_first_found:
+        - files: "{{ state | default('started') }}.yaml"
+          skip: true
+          paths: "includes/enable_eapi"
+

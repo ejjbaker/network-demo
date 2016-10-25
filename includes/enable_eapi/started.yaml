@@ -1,0 +1,14 @@
+---
+- name: enable eapi http
+  eos_config:
+    lines:
+      - protocol http
+      - no shutdown
+    parents: management api http-commands
+    provider: "{{ cli }}"
+
+- name: verify eapi status
+  eos_command:
+    commands: show management api http-commands | json
+    waitfor: result[0].httpServer.running eq true
+    provider: "{{ cli }}"
