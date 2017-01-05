@@ -3,13 +3,6 @@
   hosts: all
   connection: local
 
-  #vars:
-    #provider:
-      #host: "{{ inventory_hostname }}"
-      #ssh_keyfile: /var/lib/awx/lrich-key.pem
-      #transport: cli
-
-
   roles:
     - name: backup existing config to local host
       role: backup
