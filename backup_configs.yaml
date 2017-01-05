@@ -3,7 +3,7 @@
   hosts: all
   connection: local
 
- vars:
+  vars:
     provider:
       host: "{{ inventory_hostname }}"
       ssh_keyfile: /var/lib/awx/lrich-key.pem
