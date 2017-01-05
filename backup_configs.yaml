@@ -1,6 +1,7 @@
 ---
 - name: configure devices
   hosts: all
+  connection: local
 
   roles:
     - name: backup existing config to local host
