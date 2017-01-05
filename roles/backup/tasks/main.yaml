@@ -17,9 +17,9 @@
   delegate_to: localhost
 
 - name: include device specific tasks
-  include: "{{ item }}"
-  with_first_found:
-    - files: "{{ device_os }}.yaml"
-      skip: true
-      paths: tasks
+  include: "{{ device_os }}.yaml"
+  #with_first_found:
+  #  - files: "{{ device_os }}.yaml"
+  #    skip: true
+  #    paths: tasks
 
