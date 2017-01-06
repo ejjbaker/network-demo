@@ -14,7 +14,7 @@
       - "no ntp server {{ item }}"
     provider: "{{ provider }}"
     force: yes
-  with_items: "{{ _servers }}"
+  with_items: "{{ ntp_servers }}"
   #when: item not in ntp_servers
   
 - name: Display found ntp servers
