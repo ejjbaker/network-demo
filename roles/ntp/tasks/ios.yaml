@@ -15,7 +15,7 @@
     provider: "{{ provider }}"
     force: yes
   with_items: "{{ _servers }}"
-  when: item not in ntp_servers
+  #when: item not in ntp_servers
 
 - name: configure ios ntp parameters
   ios_config:
