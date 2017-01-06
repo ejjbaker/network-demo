@@ -16,7 +16,7 @@
     force: yes
   with_items: "{{ _servers }}"
   #when: item not in ntp_servers
-
+  
 - name: Display found ntp servers
   debug: var=_servers
 
