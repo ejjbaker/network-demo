@@ -17,11 +17,12 @@
   with_items: "{{ ntp_servers }}"
   #when: item not in ntp_servers
   
-- name: Display found ntp servers
-  debug: var=_servers
+#- name: Display found ntp servers
+#  debug: var=_servers
 
 - name: configure ios ntp parameters
   ios_config:
     src: ios.j2
     provider: "{{ provider }}"
+  tags: add_ntp
 
