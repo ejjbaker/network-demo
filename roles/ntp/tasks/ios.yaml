@@ -2,7 +2,7 @@
 - name: get current running-config
   ios_command:
     commands: show running-config
-    provider: "{{ cli }}"
+    provider: "{{ provider }}"
   register: config
 
 - name: get current configured ntp servers
