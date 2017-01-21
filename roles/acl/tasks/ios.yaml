@@ -6,5 +6,5 @@
     before: "no ip access-list extended {{ acl_name }}"
     match: exact
     replace: block
-    provider: "{{ cli }}"
+    provider: "{{ provider }}"
   when: acl_entries.ios is defined
