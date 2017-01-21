@@ -1,6 +1,7 @@
 ---
 - name: configure devices
   hosts: all
+  connection: local
 
   roles:
     - name: configure acl entries on devices
