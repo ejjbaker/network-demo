@@ -1,4 +1,7 @@
 ---
+vars:
+  date: "{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}"
+  
 - name: backup running-config from ios device
   ios_command:
     commands: show running-config
