@@ -1,6 +1,4 @@
 ---
-vars:
-  date: "{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}"
   
 - name: backup running-config from ios device
   ios_command:
@@ -10,7 +8,7 @@ vars:
 
 - name: set backup_file fact
   set_fact:
-    backup_file: "{{ backup_path }}/{{ inventory_hostname }}/running-config-{{ date }}"
+    backup_file: "{{ backup_path }}/{{ inventory_hostname }}/running-config-{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}"
 
 - name: write backup to file
   copy:
