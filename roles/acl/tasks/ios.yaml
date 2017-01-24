@@ -8,3 +8,5 @@
     replace: block
     provider: "{{ provider }}"
   when: acl_entries.ios is defined
+  
+- debug: var=stdoutput
