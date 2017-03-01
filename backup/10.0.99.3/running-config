@@ -1,0 +1,2723 @@
+
+
+!Command: show running-config
+!Time: Wed Mar  1 20:11:49 2017
+
+version 6.2(12)
+power redundancy-mode ps-redundant
+
+switchname itsintcore2
+no system admin-vdc
+install feature-set fex
+vdc itsintcore2 id 1
+  limit-resource module-type m1 m1xl m2xl f2e 
+  allow feature-set fex
+  allocate interface Ethernet1/1-7,Ethernet1/10-17,Ethernet1/19-48
+  allocate interface Ethernet4/1-32
+  allocate interface Ethernet7/1-48
+  allocate interface Ethernet9/1-32
+  allocate interface Ethernet10/1-32
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource monitor-session minimum 0 maximum 2
+  limit-resource monitor-session-erspan-dst minimum 0 maximum 23
+  limit-resource vrf minimum 2 maximum 1000
+  limit-resource port-channel minimum 0 maximum 768
+  limit-resource u4route-mem minimum 96 maximum 96
+  limit-resource u6route-mem minimum 24 maximum 24
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+  limit-resource monitor-session-inband-src minimum 0 maximum 1
+  limit-resource anycast_bundleid minimum 0 maximum 16
+  limit-resource monitor-session-mx-exception-src minimum 0 maximum 1
+  limit-resource monitor-session-extended minimum 0 maximum 12
+vdc mops-svrfarm-f2 id 2
+  limit-resource module-type f2 f2e 
+  allow feature-set fex
+  allocate interface Ethernet8/1-44
+  boot-order 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource monitor-session minimum 0 maximum 2
+  limit-resource monitor-session-erspan-dst minimum 0 maximum 23
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 768
+  limit-resource u4route-mem minimum 8 maximum 8
+  limit-resource u6route-mem minimum 4 maximum 4
+  limit-resource m4route-mem minimum 8 maximum 8
+  limit-resource m6route-mem minimum 5 maximum 5
+  limit-resource monitor-session-inband-src minimum 0 maximum 1
+  limit-resource anycast_bundleid minimum 0 maximum 16
+  limit-resource monitor-session-mx-exception-src minimum 0 maximum 1
+  limit-resource monitor-session-extended minimum 0 maximum 12
+vdc mops-svrfarm id 3
+  limit-resource module-type m1 f1 m1xl m2xl 
+  allow feature-set fex
+  allocate interface Ethernet1/8-9,Ethernet1/18
+  boot-order 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource monitor-session minimum 0 maximum 2
+  limit-resource monitor-session-erspan-dst minimum 0 maximum 23
+  limit-resource vrf minimum 2 maximum 1000
+  limit-resource port-channel minimum 0 maximum 768
+  limit-resource u4route-mem minimum 8 maximum 8
+  limit-resource u6route-mem minimum 4 maximum 4
+  limit-resource m4route-mem minimum 8 maximum 8
+  limit-resource m6route-mem minimum 5 maximum 5
+  limit-resource monitor-session-inband-src minimum 0 maximum 1
+  limit-resource anycast_bundleid minimum 0 maximum 16
+  limit-resource monitor-session-mx-exception-src minimum 0 maximum 1
+  limit-resource monitor-session-extended minimum 0 maximum 12
+vdc F2-test id 4
+  limit-resource module-type f2 f2e 
+  allow feature-set fex
+  allocate interface Ethernet8/45-48
+  boot-order 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource monitor-session minimum 0 maximum 2
+  limit-resource monitor-session-erspan-dst minimum 0 maximum 23
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 768
+  limit-resource u4route-mem minimum 8 maximum 8
+  limit-resource u6route-mem minimum 4 maximum 4
+  limit-resource m4route-mem minimum 8 maximum 8
+  limit-resource m6route-mem minimum 5 maximum 5
+  limit-resource monitor-session-inband-src minimum 0 maximum 1
+  limit-resource anycast_bundleid minimum 0 maximum 16
+  limit-resource monitor-session-mx-exception-src minimum 0 maximum 1
+  limit-resource monitor-session-extended minimum 0 maximum 12
+feature-set fex
+
+feature privilege
+feature tacacs+
+feature bgp
+feature eigrp
+feature udld
+feature interface-vlan
+feature dot1x
+feature netflow
+feature hsrp
+feature lacp
+feature dhcp
+feature lldp
+feature vtp
+feature wccp
+
+logging level vtp 2
+username admin password 5 $1$33Y4Mewb$VsRF3lfocGIPjfaMRKsAa.  role network-admin
+username mtepedin password 5 $1$zUmh79DT$lxBtwPhUrwgvP2rTgn2B5.  role network-admin
+username jforaker password 5 $1$VGwMLUYp$5bhqPnSbQnprRyGaf.2eF/  role network-admin
+username vvenkate password 5 $1$45ljbKIB$56UgY3GEp9IxPA0HrsYLi0  role network-admin
+username vvenkate1 password 5 $1$GVEnptOq$OCZFkRJDai7JzTHAAX3gO1  role network-operator
+username tdouris password 5 $1$zqi4yUmm$iBrxikummt4jRQgyNlg3g1  role network-admin
+username ewong password 5 $1$nAzOLyHV$cO14PKR0xlgndrTrMybyg0  role network-admin
+username nlinzmay password 5 $1$4BJelh8a$Ld3kijIM70zWWswNAVdrW0  role network-admin
+no password strength-check
+ip domain-lookup
+ip domain-name interop.jnj.com
+tacacs-server key 7 "DPVh1sx0##"
+tacacs-server host 10.0.1.95 
+aaa group server tacacs+ TACACS 
+    server 10.0.1.95 
+service unsupported-transceiver
+ip access-list 110
+  10 permit ip 10.0.161.138/32 any 
+  20 permit ip any 10.0.161.138/32 
+ip access-list BlueCoat-OIAOUT
+  1 deny ip 10.0.31.200/32 any 
+  2 deny ip 10.36.5.185/32 any 
+  10 permit ip any any 
+ip access-list SNMP-ACL
+  10 remark Limit SNMP RO to various approved networks
+  20 permit ip 10.0.31.128/25 any 
+ip access-list copp-system-acl-bgp
+  10 permit tcp any gt 1024 any eq bgp 
+  20 permit tcp any eq bgp any gt 1024 
+ipv6 access-list copp-system-acl-bgp6
+  10 permit tcp any gt 1024 any eq bgp 
+  20 permit tcp any eq bgp any gt 1024 
+ip access-list copp-system-acl-cts
+  10 permit tcp any any eq 64999 
+  20 permit tcp any eq 64999 any 
+ip access-list copp-system-acl-dhcp
+  10 permit udp any eq bootpc any 
+  20 permit udp any eq bootps any 
+  30 permit udp any any eq bootpc 
+  40 permit udp any any eq bootps 
+ip access-list copp-system-acl-eigrp
+  10 permit eigrp any any 
+ip access-list copp-system-acl-ftp
+  10 permit tcp any any eq ftp-data 
+  20 permit tcp any any eq ftp 
+  30 permit tcp any eq ftp-data any 
+  40 permit tcp any eq ftp any 
+ip access-list copp-system-acl-glbp
+  10 permit udp any eq 3222 224.0.0.0/24 eq 3222 
+ip access-list copp-system-acl-hsrp
+  10 permit udp any 224.0.0.0/24 eq 1985 
+ipv6 access-list copp-system-acl-hsrp6
+  10 permit udp any ff02::66/128 eq 2029 
+ip access-list copp-system-acl-icmp
+  10 permit icmp any any echo 
+  20 permit icmp any any echo-reply 
+ipv6 access-list copp-system-acl-icmp6
+  10 permit icmp any any echo-request 
+  20 permit icmp any any echo-reply 
+ipv6 access-list copp-system-acl-icmp6-msgs
+  10 permit icmp any any router-advertisement 
+  20 permit icmp any any router-solicitation 
+  30 permit icmp any any nd-na 
+  40 permit icmp any any nd-ns 
+  50 permit icmp any any mld-query 
+  60 permit icmp any any mld-report 
+  70 permit icmp any any mld-reduction 
+ip access-list copp-system-acl-igmp
+  10 permit igmp any 224.0.0.0/3 
+ip access-list copp-system-acl-msdp
+  10 permit tcp any gt 1024 any eq 639 
+  20 permit tcp any eq 639 any gt 1024 
+ip access-list copp-system-acl-ntp
+  10 permit udp any any eq ntp 
+  20 permit udp any eq ntp any 
+ipv6 access-list copp-system-acl-ntp6
+  10 permit udp any any eq ntp 
+  20 permit udp any eq ntp any 
+ip access-list copp-system-acl-ospf
+  10 permit ospf any any 
+ipv6 access-list copp-system-acl-ospf6
+  10 permit 89 any any 
+ip access-list copp-system-acl-pim
+  10 permit pim any 224.0.0.0/24 
+  20 permit udp any any eq pim-auto-rp 
+  30 permit ahp any 224.0.0.13/32 
+ip access-list copp-system-acl-pim-reg
+  10 permit pim any any 
+ipv6 access-list copp-system-acl-pim6
+  10 permit pim any ff02::d/128 
+  20 permit udp any any eq pim-auto-rp 
+ip access-list copp-system-acl-radius
+  10 permit udp any any eq 1812 
+  20 permit udp any any eq 1813 
+  30 permit udp any any eq 1645 
+  40 permit udp any any eq 1646 
+  50 permit udp any eq 1812 any 
+  60 permit udp any eq 1813 any 
+  70 permit udp any eq 1645 any 
+  80 permit udp any eq 1646 any 
+ipv6 access-list copp-system-acl-radius6
+  10 permit udp any any eq 1812 
+  20 permit udp any any eq 1813 
+  30 permit udp any any eq 1645 
+  40 permit udp any any eq 1646 
+  50 permit udp any eq 1812 any 
+  60 permit udp any eq 1813 any 
+  70 permit udp any eq 1645 any 
+  80 permit udp any eq 1646 any 
+ip access-list copp-system-acl-rip
+  10 permit udp any 224.0.0.0/24 eq rip 
+ip access-list copp-system-acl-sftp
+  10 permit tcp any any eq 115 
+  20 permit tcp any eq 115 any 
+ip access-list copp-system-acl-snmp
+  10 permit udp any any eq snmp 
+  20 permit udp any any eq snmptrap 
+ip access-list copp-system-acl-ssh
+  10 permit tcp any any eq 22 
+  20 permit tcp any eq 22 any 
+ipv6 access-list copp-system-acl-ssh6
+  10 permit tcp any any eq 22 
+  20 permit tcp any eq 22 any 
+ip access-list copp-system-acl-tacacs
+  10 permit tcp any any eq tacacs 
+  20 permit tcp any eq tacacs any 
+ipv6 access-list copp-system-acl-tacacs6
+  10 permit tcp any any eq tacacs 
+  20 permit tcp any eq tacacs any 
+ip access-list copp-system-acl-telnet
+  10 permit tcp any any eq telnet 
+  20 permit tcp any any eq 107 
+  30 permit tcp any eq telnet any 
+  40 permit tcp any eq 107 any 
+ipv6 access-list copp-system-acl-telnet6
+  10 permit tcp any any eq telnet 
+  20 permit tcp any any eq 107 
+  30 permit tcp any eq telnet any 
+  40 permit tcp any eq 107 any 
+ip access-list copp-system-acl-tftp
+  10 permit udp any any eq tftp 
+  20 permit udp any any eq 1758 
+  30 permit udp any eq tftp any 
+  40 permit udp any eq 1758 any 
+ipv6 access-list copp-system-acl-tftp6
+  10 permit udp any any eq tftp 
+  20 permit udp any any eq 1758 
+  30 permit udp any eq tftp any 
+  40 permit udp any eq 1758 any 
+ip access-list copp-system-acl-traceroute
+  10 permit icmp any any ttl-exceeded 
+  20 permit icmp any any port-unreachable 
+ip access-list copp-system-acl-undesirable
+  10 permit udp any any eq 1434 
+ip access-list copp-system-acl-vpc
+  10 permit udp any any eq 3200 
+ip access-list copp-system-acl-vrrp
+  10 permit 112 any 224.0.0.0/24 
+ip access-list copp-system-acl-wccp
+  10 permit udp any eq 2048 any eq 2048 
+class-map type control-plane match-any copp-system-class-critical
+  match access-group name copp-system-acl-bgp
+  match access-group name copp-system-acl-pim
+  match access-group name copp-system-acl-rip
+  match access-group name copp-system-acl-vpc
+  match access-group name copp-system-acl-bgp6
+  match access-group name copp-system-acl-igmp
+  match access-group name copp-system-acl-msdp
+  match access-group name copp-system-acl-ospf
+  match access-group name copp-system-acl-pim6
+  match access-group name copp-system-acl-eigrp
+  match access-group name copp-system-acl-ospf6
+class-map type control-plane match-any copp-system-class-exception
+  match exception ip option
+  match exception ip icmp unreachable
+  match exception ipv6 option
+  match exception ipv6 icmp unreachable
+class-map type control-plane match-any copp-system-class-important
+  match access-group name copp-system-acl-cts
+  match access-group name copp-system-acl-glbp
+  match access-group name copp-system-acl-hsrp
+  match access-group name copp-system-acl-vrrp
+  match access-group name copp-system-acl-wccp
+  match access-group name copp-system-acl-hsrp6
+  match access-group name copp-system-acl-pim-reg
+  match access-group name copp-system-acl-icmp6-msgs
+class-map type control-plane match-any copp-system-class-management
+  match access-group name copp-system-acl-ftp
+  match access-group name copp-system-acl-ntp
+  match access-group name copp-system-acl-ssh
+  match access-group name copp-system-acl-ntp6
+  match access-group name copp-system-acl-sftp
+  match access-group name copp-system-acl-snmp
+  match access-group name copp-system-acl-ssh6
+  match access-group name copp-system-acl-tftp
+  match access-group name copp-system-acl-tftp6
+  match access-group name copp-system-acl-radius
+  match access-group name copp-system-acl-tacacs
+  match access-group name copp-system-acl-telnet
+  match access-group name copp-system-acl-radius6
+  match access-group name copp-system-acl-tacacs6
+  match access-group name copp-system-acl-telnet6
+class-map type control-plane match-any copp-system-class-monitoring
+  match access-group name copp-system-acl-icmp
+  match access-group name copp-system-acl-icmp6
+  match access-group name copp-system-acl-traceroute
+class-map type control-plane match-any copp-system-class-normal
+  match access-group name copp-system-acl-dhcp
+  match redirect dhcp-snoop
+  match protocol arp
+class-map type control-plane match-any copp-system-class-redirect
+  match redirect arp-inspect
+class-map type control-plane match-any copp-system-class-undesirable
+  match access-group name copp-system-acl-undesirable
+policy-map type control-plane copp-system-policy 
+  class copp-system-class-critical
+    police cir 39600 kbps bc 250 ms conform transmit violate drop 
+  class copp-system-class-important
+    police cir 1060 kbps bc 1000 ms conform transmit violate drop 
+  class copp-system-class-management
+    police cir 10000 kbps bc 250 ms conform transmit violate drop 
+  class copp-system-class-normal
+    police cir 680 kbps bc 250 ms conform transmit violate drop 
+  class copp-system-class-redirect
+    police cir 280 kbps bc 250 ms conform transmit violate drop 
+  class copp-system-class-monitoring
+    police cir 130 kbps bc 1000 ms conform transmit violate drop 
+  class copp-system-class-exception
+    police cir 360 kbps bc 250 ms conform transmit violate drop 
+  class copp-system-class-undesirable
+    police cir 32 kbps bc 250 ms conform drop violate drop 
+  class class-default
+    police cir 100 kbps bc 250 ms conform transmit violate drop 
+control-plane
+  service-policy input copp-system-policy
+vtp mode transparent
+vtp domain STU
+fex 105
+  pinning max-links 1
+  description Fiber FEX DI-41
+  type N2248PQ
+fex 106
+  pinning max-links 1
+  description Fiber FEX DF-41
+  type N2248PQ
+fex 108
+  pinning max-links 1
+  description Fiber FEX DF-59
+snmp-server contact Network Core Engineering
+snmp-server location ITS Interop Lab
+snmp-server source-interface trap Vlan99
+snmp-server user admin network-admin auth md5 0x9d556b7ddf2d50587e580845cd7a6331 priv 0x9d556b7ddf2d50587e580845cd7a6331 localizedkey
+snmp-server user ewong network-admin auth md5 0x60ad775baf8abc366cb30e3bb70fc582 priv 0x60ad775baf8abc366cb30e3bb70fc582 localizedkey
+snmp-server user tdouris network-admin auth md5 0xeba4c63a82ab3959b698d53deffdc191 priv 0xeba4c63a82ab3959b698d53deffdc191 localizedkey
+snmp-server user jforaker network-admin auth md5 0x3ddd0a28a2cba05176474d1ec4218e93 priv 0x3ddd0a28a2cba05176474d1ec4218e93 localizedkey
+snmp-server user nlinzmay network-admin auth md5 0x5518388c10131a0f43fe74cf3bfe6f64 priv 0x5518388c10131a0f43fe74cf3bfe6f64 localizedkey
+snmp-server user vvenkate network-admin auth md5 0x7667ef78dae692aef277547c317981d5 priv 0x7667ef78dae692aef277547c317981d5 localizedkey
+snmp-server user vvenkate1 network-operator auth md5 0x7667ef78dae692aef277547c317981d5 priv 0x7667ef78dae692aef277547c317981d5 localizedkey
+rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+snmp-server community imp0ss1ble12 group network-operator
+snmp-server community ro4TEDlab group network-operator
+snmp-server community ro4TEDlab use-acl SNMP-ACL
+ntp server 10.0.5.10 use-vrf management
+ntp server 10.0.5.11 prefer use-vrf management
+ntp server 10.0.5.15 use-vrf management
+ntp server 10.0.11.230 use-vrf management
+ntp source-interface  mgmt0
+aaa authentication login default group TACACS 
+
+ip route 0.0.0.0/0 10.0.16.4
+ip route 10.0.0.0/8 10.0.14.132
+ip route 10.0.31.128/25 10.0.83.20 name Net-Eng-MGMT-ToFW001
+ip route 10.0.45.224/28 10.0.1.45
+ip route 10.0.77.0/24 10.0.16.6 name Firewall-InterOP-ASAInt
+ip route 10.0.78.0/24 10.0.16.4 name Firewall-ITSUSRA5474FW098-99
+ip route 10.0.83.32/29 10.0.83.20 name Net-Eng-MGMT-SW-ToFw001
+ip route 10.0.83.48/28 10.0.83.28 name Net-Eng-DMZ-ToFw001
+ip route 10.0.128.0/20 10.0.99.250
+ip route 10.0.128.0/20 10.0.99.252
+ip route 10.0.188.0/28 10.0.201.148 name SDDC-Sandbox-F5-VS
+ip route 10.0.201.176/28 10.0.201.132 name LB002-virtuals
+ip route 172.16.0.0/12 10.0.14.132
+ipv6 route 0::/0 2620:147:c00:6::3
+vlan 1-2,9-37,80-92,99-104,107,110,128-129,150,201-202,221-222,299-317,319-331,455,500,502-516,525-532,540,542,544,546,548-550,600-601,608,610-618,701,704,800-803,900-901,999
+flow exporter SevOne-Collector-LAB
+  description export netflow to SevOne
+  destination 10.0.31.160
+  transport udp 9996
+  source Vlan99
+  version 9
+ip wccp 90 password 0 bcprfw  redirect-list BlueCoat-OIAOUT 
+sampler NF-Sampler-1
+  description 1-of-1024
+  mode 1 out-of 1024
+flow monitor Netflow-Monitor-1
+  description Record-to-Exporter
+  record netflow-original
+  exporter SevOne-Collector-LAB
+vlan 2
+  name IXIA_to_Firepower
+vlan 80
+  name Net-Eng-ProxySG
+vlan 81
+  name SDDC-Eng-Mgmt
+vlan 82
+  name Net-Eng-F5-mgmt
+vlan 83
+  name Net-Eng-F5-10.0.83.0/28
+vlan 87
+  name Net-Eng-Device-mgmt
+vlan 88
+  name Net-Eng-F5-10.0.201.128/28
+vlan 89
+  name Net-Eng-F5-10.0.201.144/28
+vlan 90
+  name Net-Eng-F5-External
+vlan 91
+  name Net-Eng-F5-Internal
+vlan 92
+  name Firewall-Failver
+vlan 150
+  name Amazon_VPC(10.0.150.0/24
+vlan 550
+  name VirtSrv(10.0.90.0/23)
+vlan 701
+  name Arista-Mgmt-Vlan
+
+spanning-tree vlan 902 priority 8192
+ip prefix-list SDDC-LAB-EIGRP seq 5 permit 10.0.160.0/19 
+ip prefix-list SDDC-LAB-EIGRP seq 10 permit 10.0.224.0/19 
+ip prefix-list SDDC-LAB-EIGRP seq 15 permit 10.0.208.0/23 
+ip prefix-list SDDC-LAB-EIGRP seq 20 permit 10.0.210.0/23 
+ip prefix-list SDDC-LAB-EIGRP seq 25 permit 10.0.120.0/23 
+ip prefix-list SDDC-LAB-SUMMARY seq 5 permit 10.0.160.0/19 
+ip prefix-list SDDC-Sandbox1 seq 5 permit 10.0.188.0/28 
+ip prefix-list SDDC-Sandbox1 seq 6 permit 10.0.190.160/27 
+ip prefix-list SDDC-Sandbox1 seq 10 permit 0.0.0.0/0 
+ip prefix-list SDDC2-LAB-SUMMARY seq 5 permit 10.0.224.0/19 
+ip prefix-list SDDC2-LAB-SUMMARY seq 10 permit 10.0.190.160/27 
+ip prefix-list SDDC2-LAB-SUMMARY seq 20 permit 10.0.190.144/28 
+ip prefix-list SDDC2-LAB-SUMMARY seq 25 permit 10.0.227.128/28 
+ip prefix-list SDDC2-LAB-SUMMARY seq 30 permit 10.0.224.64/26 
+ip prefix-list Treasury-MOPS-Replication seq 5 permit 10.0.210.192/26 
+ip prefix-list Treasury-MOPS-Replication seq 10 permit 10.0.227.128/28 
+ip prefix-list Treasury-MOPS-Replication seq 15 permit 10.0.224.64/26 
+ip prefix-list Treasury-MOPS-Subnet seq 5 permit 10.0.210.0/23 
+ip prefix-list Treasury-MOPS-Subnet seq 10 permit 172.16.34.0/24 
+ip prefix-list static-default seq 5 permit 0.0.0.0/0 
+ip prefix-list static-default seq 10 permit 10.0.188.0/28 
+route-map SDDC-LAB-EIGRP permit 5
+  match ip address prefix-list SDDC-LAB-EIGRP 
+route-map static-default permit 5
+  match ip address prefix-list static-default 
+service dhcp
+ip dhcp relay
+ipv6 dhcp relay
+vrf context management
+  ip route 0.0.0.0/0 10.0.99.1
+
+
+interface mgmt0
+  vrf member management
+  ip address 10.0.99.251/24
+
+interface Vlan1
+  ip passive-interface eigrp 1003
+
+interface Vlan2
+  no shutdown
+
+interface Vlan9
+  no ip redirects
+  ip address 10.0.80.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 9 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.80.1
+  no shutdown
+
+interface Vlan10
+  no ip redirects
+  ip address 10.0.81.126/25
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 10 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.81.1
+  no shutdown
+
+interface Vlan11
+  no ip redirects
+  ip address 10.0.105.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 11 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.105.1
+  no shutdown
+
+interface Vlan12
+  no ip redirects
+  ip address 10.0.106.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 12 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.106.1
+  no shutdown
+
+interface Vlan13
+  no ip redirects
+  ip address 10.0.107.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 13 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.107.1
+  no shutdown
+
+interface Vlan14
+  no ip redirects
+  ip address 10.0.108.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 14 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.108.1
+  no shutdown
+
+interface Vlan15
+  no ip redirects
+  ip address 10.0.109.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 15 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.109.1
+  no shutdown
+
+interface Vlan16
+  no ip redirects
+  ip address 10.0.110.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 16 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.110.1
+  no shutdown
+
+interface Vlan17
+  no ip redirects
+  ip address 10.0.111.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 17 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.111.1
+  no shutdown
+
+interface Vlan18
+  no ip redirects
+  ip address 10.0.112.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 18 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.112.1
+  no shutdown
+
+interface Vlan19
+  no ip redirects
+  ip address 10.0.84.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 19 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.84.1
+  no shutdown
+
+interface Vlan20
+  no ip redirects
+  ip address 10.0.33.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 20 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.33.1
+  no shutdown
+
+interface Vlan25
+  no ip redirects
+  ip passive-interface eigrp 1003
+  hsrp 25 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+
+interface Vlan34
+  ip address 172.16.34.1/24
+  ip router eigrp 1
+  description Ixia test clients
+  no shutdown
+
+interface Vlan35
+  no ip redirects
+  ip passive-interface eigrp 1003
+  hsrp 35 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+
+interface Vlan36
+  no ip redirects
+  ip address 10.0.34.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 36 
+    name Vlan36
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.34.1
+  no shutdown
+
+interface Vlan37
+  no ip redirects
+  ip address 10.0.35.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 37 
+    name Vlan37
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.35.1
+  no shutdown
+
+interface Vlan80
+  no ip redirects
+  ip address 10.0.201.51/28
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 80 
+    name vlan80
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.201.49
+  description Net-Eng-ProxySG
+  no shutdown
+
+interface Vlan81
+  no ip redirects
+  ip address 10.0.201.163/28
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 81 
+    name Vlan81
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.201.161
+  description SDDC-sandbox1-mgmt
+  no shutdown
+
+interface Vlan82
+  no ip redirects
+  ip address 10.0.64.3/27
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 82 
+    name Vlan82
+    preempt 
+    ip 10.0.64.1
+  description F5 mgmt
+  no shutdown
+
+interface Vlan83
+  no ip redirects
+  ip address 10.0.83.3/28
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 83 
+    name Vlan83
+    preempt 
+    ip 10.0.83.1
+  description F5-LB001
+  no shutdown
+
+interface Vlan84
+  ip address 10.0.83.19/29
+  ip wccp 90 redirect in
+  hsrp version 2
+  hsrp 84 
+    preempt 
+    priority 254
+    ip 10.0.83.17
+  no shutdown
+
+interface Vlan85
+  ip address 10.0.83.27/29
+  hsrp version 2
+  hsrp 85 
+    preempt 
+    priority 254
+    ip 10.0.83.25
+  no shutdown
+
+interface Vlan86
+  ip address 10.0.201.99/28
+  hsrp version 2
+  hsrp 86 
+    preempt 
+    priority 254
+    ip 10.0.201.97
+  no shutdown
+
+interface Vlan87
+  ip address 10.0.201.19/28
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 87 
+    name Vlan87
+    preempt 
+    ip 10.0.201.17
+  description Net-Eng-Device-mgmt
+  no shutdown
+
+interface Vlan88
+  ip address 10.0.201.131/28
+  hsrp version 2
+  hsrp 88 
+    name Vlan88
+    preempt 
+    ip 10.0.201.129
+  description Net-Eng-F5-LB002
+  no shutdown
+
+interface Vlan89
+  ip address 10.0.201.147/28
+  hsrp version 2
+  hsrp 89 
+    name Vlan89
+    preempt 
+    ip 10.0.201.145
+  description Net-Eng-F5-LB004
+  no shutdown
+
+interface Vlan99
+  no ip redirects
+  ip address 10.0.99.3/24
+  hsrp version 2
+  hsrp 99 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.99.1
+  no shutdown
+
+interface Vlan100
+  ipv6 address 2620:147:c00:1::3/64
+  hsrp version 2
+  hsrp 100 
+    preempt 
+    priority 255
+  hsrp 100 ipv6
+    priority 255
+    ip 2620:147:c00:1::1
+  no shutdown
+
+interface Vlan104
+  no ip redirects
+  ip address 10.0.104.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 104 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.104.1
+  no shutdown
+
+interface Vlan128
+  no ip redirects
+  ip address 10.0.81.253/25
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 128 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.81.129
+  no shutdown
+
+interface Vlan129
+  no ip redirects
+  ip address 10.0.100.3/23
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 129 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.100.1
+  no shutdown
+
+interface Vlan150
+  no ip redirects
+  ip address 10.0.150.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 150 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.150.1
+  no shutdown
+
+interface Vlan201
+  no ip redirects
+  ip passive-interface eigrp 1003
+
+interface Vlan222
+  ip address 10.0.72.3/24
+  hsrp version 2
+  hsrp 222 
+    priority 100 forwarding-threshold lower 1 upper 100
+    ip 10.0.72.1
+  no shutdown
+
+interface Vlan300
+  ip address 10.0.16.11/24
+  hsrp version 2
+  hsrp 300 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.16.1
+  no shutdown
+
+interface Vlan301
+  no ip redirects
+  ip address 10.0.1.3/24
+  ip address 10.0.2.3/24 secondary
+  ipv6 address 2620:147:c00:3::3/64
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 301 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.1.1
+  hsrp 301 ipv6
+    priority 100 forwarding-threshold lower 1 upper 100
+    ip 2620:147:c00:3::1
+  no shutdown
+
+interface Vlan302
+  no ip redirects
+  ip address 10.0.3.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 302 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.3.1
+  no shutdown
+
+interface Vlan303
+  no ip redirects
+  ip address 10.0.4.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 303 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.4.1
+  no shutdown
+
+interface Vlan304
+  no ip redirects
+  ip address 10.0.8.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 304 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.8.1
+  no shutdown
+
+interface Vlan305
+  no ip redirects
+  ip address 10.0.6.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 305 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.6.1
+  no shutdown
+
+interface Vlan306
+  no ip redirects
+  ip address 10.0.7.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 306 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.7.1
+  no shutdown
+
+interface Vlan308
+  no ip redirects
+  ip address 10.0.5.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 308 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.5.1
+  no shutdown
+
+interface Vlan309
+  no ip redirects
+  ip address 10.0.17.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 309 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.17.1
+  no shutdown
+
+interface Vlan310
+  no ip redirects
+  ip address 10.0.9.3/25
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 310 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.9.1
+  no shutdown
+
+interface Vlan314
+  no ip redirects
+  ip address 10.0.18.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 314 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.18.1
+  no shutdown
+
+interface Vlan315
+  no ip redirects
+  ip address 10.0.19.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 315 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.19.1
+  no shutdown
+
+interface Vlan316
+  no ip redirects
+  ip address 10.0.24.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 316 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.24.1
+  no shutdown
+
+interface Vlan317
+  no ip redirects
+  ip address 10.0.10.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 317 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.10.1
+  no shutdown
+
+interface Vlan319
+  no ip redirects
+  ip address 10.0.25.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 319 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.25.1
+  no shutdown
+
+interface Vlan321
+  no ip redirects
+  ip address 10.0.27.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 321 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.27.1
+  no shutdown
+
+interface Vlan324
+  no ip redirects
+  ip address 10.0.52.3/23
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 324 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.52.1
+  no shutdown
+
+interface Vlan325
+  no ip redirects
+  ip address 10.0.54.3/23
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 325 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.54.1
+  no shutdown
+
+interface Vlan326
+  no ip redirects
+  ipv6 address 2620:147:c00:7::3/64
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 326 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+  hsrp 326 ipv6
+    priority 100 forwarding-threshold lower 1 upper 100
+    ip 2620:147:c00:7::1
+
+interface Vlan327
+  no ip redirects
+  ipv6 address 2620:147:c00:8::3/64
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 326 ipv6
+    priority 100 forwarding-threshold lower 1 upper 100
+    ip 2620:147:c00:8::1
+  hsrp 327 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+
+interface Vlan328
+  no ip redirects
+  ipv6 address 2620:147:c00:9::3/64
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 326 ipv6
+    priority 100 forwarding-threshold lower 1 upper 100
+    ip 2620:147:c00:9::1
+  hsrp 328 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+
+interface Vlan329
+  no ip redirects
+  ipv6 address 2620:147:c00:10::3/64
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 326 ipv6
+    priority 100 forwarding-threshold lower 1 upper 100
+    ip 2620:147:c00:10::1
+  hsrp 329 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+
+interface Vlan330
+  no ip redirects
+  ipv6 address 2620:147:c00:11::3/64
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 326 ipv6
+    priority 100 forwarding-threshold lower 1 upper 100
+    ip 2620:147:c00:11::1
+  hsrp 330 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+
+interface Vlan331
+  no ip redirects
+  ipv6 address 2620:147:c00:12::3/64
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 326 ipv6
+    priority 100 forwarding-threshold lower 1 upper 100
+    ip 2620:147:c00:12::1
+  hsrp 331 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+
+interface Vlan332
+  no ip redirects
+  ip passive-interface eigrp 1003
+
+interface Vlan455
+  no ip redirects
+  ip address 10.0.200.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 455 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.200.1
+  no shutdown
+
+interface Vlan500
+  no ip redirects
+  ip address 10.0.11.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 500 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.11.1
+  no shutdown
+
+interface Vlan502
+  no ip redirects
+  ip address 10.0.36.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 502 
+    name Vlan502
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.36.1
+  no shutdown
+
+interface Vlan510
+  ip address 10.0.14.134/28
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 510 
+    preempt 
+    priority 254
+    ip 10.0.14.129
+  no shutdown
+
+interface Vlan526
+  no ip redirects
+  ip address 10.0.12.3/23
+  ipv6 address 2620:147:c00:2::3/64
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 526 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.12.1
+  hsrp 526 ipv6
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 2620:147:c00:2::1
+  no shutdown
+
+interface Vlan530
+  no ip redirects
+  ip address 10.0.98.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 530 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.98.1
+  no shutdown
+
+interface Vlan532
+  no ip redirects
+  ip address 10.0.97.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 532 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.97.1
+  no shutdown
+
+interface Vlan540
+  no ip redirects
+  ip address 10.0.40.3/23
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 540 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.40.1
+  no shutdown
+
+interface Vlan542
+  no ip redirects
+  ip address 10.0.42.3/23
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 542 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.42.1
+  no shutdown
+
+interface Vlan544
+  no ip redirects
+  ip address 10.0.44.3/23
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 544 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.44.1
+  no shutdown
+
+interface Vlan546
+  no ip redirects
+  ip address 10.0.46.3/23
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 546 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.46.1
+  no shutdown
+
+interface Vlan548
+  no ip redirects
+  ip address 10.0.48.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 548 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.48.1
+  no shutdown
+
+interface Vlan549
+  no ip redirects
+  ip address 10.0.49.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 549 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.49.1
+  no shutdown
+
+interface Vlan550
+  ip flow monitor Netflow-Monitor-1 input  
+  ip flow monitor Netflow-Monitor-1 output  
+  no ip redirects
+  ip address 10.0.90.3/23
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 550 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.90.1
+  no shutdown
+
+interface Vlan600
+  no ip redirects
+  ipv6 address 2620:147:c00:6::4/64
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 600 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+  hsrp 600 ipv6
+    priority 100 forwarding-threshold lower 1 upper 100
+    ip 2620:147:c00:6::1
+  no shutdown
+
+interface Vlan610
+  no ip redirects
+  ip address 10.0.193.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 610 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.193.1
+  ip dhcp relay address 10.0.5.11 
+  ip dhcp relay address 10.0.5.114 
+  no shutdown
+
+interface Vlan611
+  no ip redirects
+  ip address 10.0.195.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 611 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.195.1
+  ip dhcp relay address 10.0.5.11 
+  ip dhcp relay address 10.0.5.114 
+  no shutdown
+
+interface Vlan612
+  no ip redirects
+  ip address 10.0.202.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 612 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.202.1
+  ip dhcp relay address 10.0.5.11 
+  ip dhcp relay address 10.0.5.114 
+  no shutdown
+
+interface Vlan613
+  no ip redirects
+  ip address 10.0.203.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 613 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.203.1
+  ip dhcp relay address 10.0.5.11 
+  ip dhcp relay address 10.0.5.114 
+  no shutdown
+
+interface Vlan614
+  no ip redirects
+  ip address 10.0.204.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 614 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.204.1
+  ip dhcp relay address 10.0.5.11 
+  ip dhcp relay address 10.0.5.114 
+  no shutdown
+
+interface Vlan615
+  no ip redirects
+  ip address 10.0.205.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 615 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.205.1
+  ip dhcp relay address 10.0.5.11 
+  ip dhcp relay address 10.0.5.114 
+  no shutdown
+
+interface Vlan616
+  no ip redirects
+  ip address 10.0.206.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 616 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.206.1
+  ip dhcp relay address 10.0.5.11 
+  ip dhcp relay address 10.0.5.114 
+  no shutdown
+
+interface Vlan617
+  no ip redirects
+  ip address 10.0.207.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 617 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.207.1
+  ip dhcp relay address 10.0.5.11 
+  ip dhcp relay address 10.0.5.114 
+  no shutdown
+
+interface Vlan618
+  no ip redirects
+  ip address 10.0.213.3/24
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 618 
+    preempt 
+    priority 255 forwarding-threshold lower 1 upper 255
+    ip 10.0.213.1
+  ip dhcp relay address 10.0.5.11 
+  ip dhcp relay address 10.0.5.114 
+  no shutdown
+
+interface Vlan701
+  no ip redirects
+  ip address 10.0.14.3/26
+  ip passive-interface eigrp 1003
+  hsrp version 2
+  hsrp 701 
+    preempt 
+    ip 10.0.14.1
+  ip dhcp relay address 10.0.160.147 
+  ip dhcp relay address 10.0.160.148 
+  ip dhcp relay address 10.0.160.149 
+  description Arista-Mgmt-Vlan
+  no shutdown
+
+interface Vlan999
+
+interface Vlan1229
+
+interface Vlan3001
+
+interface port-channel1
+  switchport
+  switchport access vlan 325
+  no lacp graceful-convergence
+
+interface port-channel2
+  switchport
+  switchport access vlan 325
+  no lacp graceful-convergence
+
+interface port-channel3
+  switchport
+  switchport access vlan 325
+  no lacp graceful-convergence
+
+interface port-channel4
+  switchport
+  switchport access vlan 325
+  no lacp graceful-convergence
+
+interface port-channel5
+  switchport
+  switchport access vlan 325
+
+interface port-channel6
+  switchport
+  switchport access vlan 325
+
+interface port-channel7
+  switchport
+  switchport access vlan 325
+  no lacp graceful-convergence
+
+interface port-channel8
+  switchport
+  switchport access vlan 325
+  no lacp graceful-convergence
+
+interface port-channel105
+  switchport
+  switchport mode fex-fabric
+  fex associate 105
+
+interface port-channel106
+  switchport
+  switchport mode fex-fabric
+  fex associate 106
+
+interface port-channel108
+  switchport
+  switchport mode fex-fabric
+  fex associate 108
+
+interface cmp-mgmt module 5
+      ip address 10.0.1.22 255.255.255.0
+      ip default-gateway 10.0.1.1
+interface cmp-mgmt module 6
+      ip address 10.0.1.23 255.255.255.0
+      ip default-gateway 10.0.1.1
+
+
+interface Ethernet1/1
+  switchport
+  switchport access vlan 99
+  no shutdown
+
+interface Ethernet1/2
+  switchport
+  switchport access vlan 99
+  no shutdown
+
+interface Ethernet1/3
+  switchport
+  switchport access vlan 129
+  no shutdown
+
+interface Ethernet1/4
+  switchport
+  switchport access vlan 129
+  no shutdown
+
+interface Ethernet1/5
+  switchport
+  switchport access vlan 129
+  no shutdown
+
+interface Ethernet1/6
+  switchport
+  switchport access vlan 129
+  no shutdown
+
+interface Ethernet1/7
+  description ICN-mops-svrfarm-vdc
+  ip address 10.0.211.128/31
+
+interface Ethernet1/10
+  description treasury SAN mgmt
+  switchport
+  switchport access vlan 305
+  no shutdown
+
+interface Ethernet1/11
+  description treasury SAN mgmt
+  switchport
+  switchport access vlan 305
+  no shutdown
+
+interface Ethernet1/12
+  description treasury SAN mgmt
+  switchport
+  switchport access vlan 305
+  no shutdown
+
+interface Ethernet1/13
+  description treasury SAN mgmt
+  switchport
+  switchport access vlan 305
+  no shutdown
+
+interface Ethernet1/14
+  description treasury SAN mgmt
+  switchport
+  switchport access vlan 305
+  no shutdown
+
+interface Ethernet1/15
+  description treasury SAN mgmt
+  switchport
+  switchport access vlan 305
+  no shutdown
+
+interface Ethernet1/16
+  description treasury SAN mgmt
+  switchport
+  switchport access vlan 305
+  no shutdown
+
+interface Ethernet1/17
+  description treasury SAN mgmt
+  switchport
+  switchport access vlan 305
+  no shutdown
+
+interface Ethernet1/19
+  switchport
+  switchport access vlan 100
+  no shutdown
+
+interface Ethernet1/20
+  switchport
+  no shutdown
+
+interface Ethernet1/21
+  description Ixia-Chassis-mgmt
+  switchport
+  switchport access vlan 87
+  spanning-tree port type edge
+  no shutdown
+
+interface Ethernet1/22
+  switchport
+  switchport access vlan 309
+  no shutdown
+
+interface Ethernet1/23
+  switchport
+  switchport access vlan 92
+  no shutdown
+
+interface Ethernet1/24
+
+interface Ethernet1/25
+  switchport
+  switchport access vlan 316
+  no shutdown
+
+interface Ethernet1/26
+  switchport
+  switchport access vlan 316
+  no shutdown
+
+interface Ethernet1/27
+  switchport
+  switchport access vlan 325
+  no shutdown
+
+interface Ethernet1/28
+
+interface Ethernet1/29
+
+interface Ethernet1/30
+
+interface Ethernet1/31
+  switchport
+  switchport access vlan 325
+  no shutdown
+
+interface Ethernet1/32
+  switchport
+  switchport access vlan 325
+  no shutdown
+
+interface Ethernet1/33
+  switchport
+  switchport access vlan 325
+  no shutdown
+
+interface Ethernet1/34
+  switchport
+  switchport access vlan 325
+  no shutdown
+
+interface Ethernet1/35
+  description moved from LAB066
+  switchport
+  switchport access vlan 303
+  no shutdown
+
+interface Ethernet1/36
+  description moved from LAB066
+  switchport
+  switchport access vlan 129
+  no shutdown
+
+interface Ethernet1/37
+  description moved from LAB066
+  switchport
+  switchport access vlan 129
+  no shutdown
+
+interface Ethernet1/38
+  description moved from LAB066
+  switchport
+  switchport access vlan 129
+  no shutdown
+
+interface Ethernet1/39
+  description moved from LAB066
+  switchport
+  switchport access vlan 129
+  no shutdown
+
+interface Ethernet1/40
+
+interface Ethernet1/41
+
+interface Ethernet1/42
+
+interface Ethernet1/43
+
+interface Ethernet1/44
+
+interface Ethernet1/45
+
+interface Ethernet1/46
+
+interface Ethernet1/47
+  no shutdown
+
+interface Ethernet1/48
+  switchport
+  switchport access vlan 526
+  no shutdown
+
+interface Ethernet4/1
+  description AristaDC2A E2
+  ip address 10.0.14.230/31
+  no shutdown
+
+interface Ethernet4/2
+  description AristaDC2B E2
+  ip address 10.0.14.234/31
+  no shutdown
+
+interface Ethernet4/3
+
+interface Ethernet4/4
+
+interface Ethernet4/5
+
+interface Ethernet4/6
+
+interface Ethernet4/7
+
+interface Ethernet4/8
+
+interface Ethernet4/9
+
+interface Ethernet4/10
+
+interface Ethernet4/11
+  description 10GB to AristaSW2-2
+
+interface Ethernet4/12
+
+interface Ethernet4/13
+
+interface Ethernet4/14
+  description 1Gb to  Cisco Mgt SW-CX45
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 701
+  no shutdown
+
+interface Ethernet4/15
+
+interface Ethernet4/16
+
+interface Ethernet4/17
+
+interface Ethernet4/18
+
+interface Ethernet4/19
+
+interface Ethernet4/20
+
+interface Ethernet4/21
+
+interface Ethernet4/22
+
+interface Ethernet4/23
+
+interface Ethernet4/24
+
+interface Ethernet4/25
+
+interface Ethernet4/26
+
+interface Ethernet4/27
+
+interface Ethernet4/28
+
+interface Ethernet4/29
+
+interface Ethernet4/30
+
+interface Ethernet4/31
+
+interface Ethernet4/32
+
+interface Ethernet7/1
+  description to itsintcore3 5010 DI-41
+  switchport mode trunk
+  switchport trunk native vlan 99
+  no shutdown
+
+interface Ethernet7/2
+  description FEX106 port-channel
+  switchport mode fex-fabric
+  fex associate 106
+  channel-group 106
+  no shutdown
+
+interface Ethernet7/3
+  description FEX106 port-channel
+  switchport mode fex-fabric
+  fex associate 106
+  channel-group 106
+  no shutdown
+
+interface Ethernet7/4
+  description FEX106 port-channel
+  switchport mode fex-fabric
+  fex associate 106
+  channel-group 106
+  no shutdown
+
+interface Ethernet7/5
+  description FEX108 port-channel
+  switchport mode fex-fabric
+  fex associate 108
+  channel-group 108
+  no shutdown
+
+interface Ethernet7/6
+  description FEX105 port-channel
+  switchport mode fex-fabric
+  fex associate 105
+  channel-group 105
+  no shutdown
+
+interface Ethernet7/7
+  description FEX105 port-channel
+  switchport mode fex-fabric
+  fex associate 105
+  channel-group 105
+  no shutdown
+
+interface Ethernet7/8
+  description FEX105 port-channel
+  switchport mode fex-fabric
+  fex associate 105
+  channel-group 105
+  no shutdown
+
+interface Ethernet7/9
+  description FEX105 port-channel
+  switchport mode fex-fabric
+  fex associate 105
+  channel-group 105
+  no shutdown
+
+interface Ethernet7/10
+
+interface Ethernet7/11
+  description ITSUSRAENC3CCX56-X2
+  switchport mode trunk
+  switchport trunk native vlan 900
+  switchport trunk allowed vlan 90-91
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet7/12
+
+interface Ethernet7/13
+
+interface Ethernet7/14
+
+interface Ethernet7/15
+
+interface Ethernet7/16
+
+interface Ethernet7/17
+
+interface Ethernet7/18
+
+interface Ethernet7/19
+
+interface Ethernet7/20
+
+interface Ethernet7/21
+
+interface Ethernet7/22
+
+interface Ethernet7/23
+
+interface Ethernet7/24
+
+interface Ethernet7/25
+
+interface Ethernet7/26
+
+interface Ethernet7/27
+
+interface Ethernet7/28
+
+interface Ethernet7/29
+
+interface Ethernet7/30
+
+interface Ethernet7/31
+
+interface Ethernet7/32
+
+interface Ethernet7/33
+
+interface Ethernet7/34
+
+interface Ethernet7/35
+
+interface Ethernet7/36
+
+interface Ethernet7/37
+
+interface Ethernet7/38
+
+interface Ethernet7/39
+
+interface Ethernet7/40
+
+interface Ethernet7/41
+
+interface Ethernet7/42
+
+interface Ethernet7/43
+
+interface Ethernet7/44
+
+interface Ethernet7/45
+
+interface Ethernet7/46
+
+interface Ethernet7/47
+
+interface Ethernet7/48
+
+interface Ethernet9/1
+  description ICN-labusra5474rs001-e1/2
+  ip flow monitor Netflow-Monitor-1 input sampler NF-Sampler-1
+  ip flow monitor Netflow-Monitor-1 output sampler NF-Sampler-1
+  ip address 10.0.159.3/31
+  ip router eigrp 1
+  ip distribute-list eigrp 1 prefix-list SDDC-Sandbox1 out
+  no ip passive-interface eigrp 1
+
+interface Ethernet9/2
+  description ICN-labusra5474rs002-e1/2
+  ip flow monitor Netflow-Monitor-1 input sampler NF-Sampler-1
+  ip flow monitor Netflow-Monitor-1 output sampler NF-Sampler-1
+  ip address 10.0.159.7/31
+  ip router eigrp 1
+  ip distribute-list eigrp 1 prefix-list SDDC-Sandbox1 out
+  no ip passive-interface eigrp 1
+
+interface Ethernet9/3
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 99
+  switchport trunk allowed vlan 1-7,9-4094
+  no shutdown
+
+interface Ethernet9/4
+  switchport
+  no shutdown
+
+interface Ethernet9/5
+
+interface Ethernet9/6
+
+interface Ethernet9/7
+  description ICN-labusra5474rs003-e1/48
+  ip flow monitor Netflow-Monitor-1 input sampler NF-Sampler-1
+  ip flow monitor Netflow-Monitor-1 output sampler NF-Sampler-1
+  ip address 10.0.224.3/31
+  ip router eigrp 1
+  ip distribute-list eigrp 1 prefix-list SDDC-Sandbox1 out
+  ip distribute-list eigrp 1 prefix-list SDDC2-LAB-SUMMARY in
+  no ip passive-interface eigrp 1
+  no shutdown
+
+interface Ethernet9/8
+
+interface Ethernet9/9
+  description to Ixia-3.1_core1-E9/9
+  ip address 10.0.212.1/31
+  ip router eigrp 1
+  ip distribute-list eigrp 1 prefix-list Treasury-MOPS-Replication out
+  no ip passive-interface eigrp 1
+  no shutdown
+
+interface Ethernet9/10
+  description to Ixia-3.3_core1-E9/10
+  delay 120
+  ip address 10.0.212.3/31
+  ip router eigrp 1
+  ip summary-address eigrp 1 10.0.210.0/23
+  no ip passive-interface eigrp 1
+  no shutdown
+
+interface Ethernet9/11
+  description SDDC layer 2 core connection
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  switchport trunk allowed vlan 37,902-903,999-1004,2001-2004,3001-3004
+  no shutdown
+
+interface Ethernet9/12
+
+interface Ethernet9/13
+  description Lab Core to Lab Core Link
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 99
+  no shutdown
+
+interface Ethernet9/14
+
+interface Ethernet9/15
+
+interface Ethernet9/16
+
+interface Ethernet9/17
+  description to itsintcore1 e9/17-reserved
+  delay 200
+  ip address 10.0.212.5/31
+  ip router eigrp 1
+  ip passive-interface eigrp 1
+  no ip passive-interface eigrp 1003
+  no shutdown
+
+interface Ethernet9/18
+  description to Ixia-2.1
+  rate-mode dedicated force
+  switchport
+  switchport access vlan 34
+  no shutdown
+
+interface Ethernet9/19
+
+interface Ethernet9/20
+  description 1Gb to  Cisco Mgt SW-CX45
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 701
+
+interface Ethernet9/21
+  description 1Gb to  Cisco Mgt SW-CX45
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 701
+  no shutdown
+
+interface Ethernet9/22
+
+interface Ethernet9/23
+
+interface Ethernet9/24
+
+interface Ethernet9/25
+  description ICN-mops-svrfarm-vdc
+  rate-mode dedicated force
+  ip flow monitor Netflow-Monitor-1 input  
+  ip flow monitor Netflow-Monitor-1 output  
+  ip address 10.0.211.128/31
+  ip router eigrp 1
+  no ip passive-interface eigrp 1
+  no shutdown
+
+interface Ethernet9/26
+  description Interop-4506E-DF-41
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 99
+  no shutdown
+
+interface Ethernet9/27
+  description SDDC-UCS-Test
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 999
+  switchport trunk allowed vlan 37
+  spanning-tree guard root
+
+interface Ethernet9/28
+  description SDDC-UCS-Test
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 999
+  switchport trunk allowed vlan 37
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet9/29
+
+interface Ethernet9/30
+  description SDDC-UCS-Test
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 999
+  switchport trunk allowed vlan 37
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet9/31
+
+interface Ethernet9/32
+
+interface Ethernet10/1
+  switchport
+  switchport access vlan 300
+  switchport trunk native vlan 99
+  spanning-tree port type edge trunk
+  no shutdown
+
+interface Ethernet10/2
+  no shutdown
+
+interface Ethernet10/3
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge trunk
+  no shutdown
+
+interface Ethernet10/4
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge trunk
+  no shutdown
+
+interface Ethernet10/5
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge trunk
+  no shutdown
+
+interface Ethernet10/6
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge trunk
+  no shutdown
+
+interface Ethernet10/7
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge trunk
+  no shutdown
+
+interface Ethernet10/8
+  description SDDC-HP-Backup
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge trunk
+  spanning-tree bpduguard enable
+  spanning-tree vlan 321,325,800 port-priority 32
+  no shutdown
+
+interface Ethernet10/9
+  description SDDC-HP-Backup
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge trunk
+  no shutdown
+
+interface Ethernet10/10
+  lacp rate fast
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge trunk
+  no shutdown
+
+interface Ethernet10/11
+  description SDDC-HP-Backup
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge trunk
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet10/12
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge trunk
+  no shutdown
+
+interface Ethernet10/13
+  switchport
+  switchport access vlan 325
+  channel-group 3 mode active
+  no shutdown
+
+interface Ethernet10/14
+  switchport
+  switchport access vlan 325
+  channel-group 3 mode active
+  no shutdown
+
+interface Ethernet10/15
+  switchport
+  switchport access vlan 325
+  channel-group 4 mode active
+  no shutdown
+
+interface Ethernet10/16
+  switchport
+  switchport access vlan 325
+  channel-group 4 mode active
+  no shutdown
+
+interface Ethernet10/17
+  switchport
+  switchport access vlan 325
+  channel-group 5 mode active
+  no shutdown
+
+interface Ethernet10/18
+  switchport
+  switchport access vlan 325
+  channel-group 5 mode active
+  no shutdown
+
+interface Ethernet10/19
+  switchport
+  switchport access vlan 325
+  channel-group 6 mode active
+  no shutdown
+
+interface Ethernet10/20
+  switchport
+  switchport access vlan 325
+  channel-group 6 mode active
+  no shutdown
+
+interface Ethernet10/21
+  switchport
+  switchport access vlan 325
+  no shutdown
+
+interface Ethernet10/22
+  switchport
+  switchport access vlan 325
+  no shutdown
+
+interface Ethernet10/23
+  switchport
+  switchport mode trunk
+  switchport access vlan 900
+  switchport trunk native vlan 900
+  no shutdown
+
+interface Ethernet10/24
+  switchport
+  switchport access vlan 325
+  no shutdown
+
+interface Ethernet10/25
+  description FEX 2248PQ
+  switchport
+  switchport mode fex-fabric
+  switchport access vlan 99
+  no shutdown
+
+interface Ethernet10/26
+  description FEX
+  switchport
+  switchport mode fex-fabric
+  switchport access vlan 99
+  no shutdown
+
+interface Ethernet10/27
+  description SDDC-HP
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree port type edge
+  spanning-tree bpduguard enable
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet10/28
+  description SDDC-UCS-Test
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 999
+  switchport trunk allowed vlan 37
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet10/29
+  description SDDC-VM-UCS
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 36
+  switchport trunk allowed vlan 36,999
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet10/30
+  description SDDC-VM-rackmnt
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 36
+  switchport trunk allowed vlan 36,999
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet10/31
+  description HP-C7000-DI46
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 999
+  switchport trunk allowed vlan 37,309,316,500
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet10/32
+  description JJnet-FW501_502
+  switchport
+  switchport access vlan 510
+  no shutdown
+
+interface Ethernet105/1/1
+  switchport mode trunk
+  switchport access vlan 540
+  switchport trunk native vlan 611
+  flowcontrol receive on
+  no shutdown
+
+interface Ethernet105/1/2
+  switchport mode trunk
+  switchport access vlan 540
+  switchport trunk native vlan 611
+  flowcontrol receive on
+  no shutdown
+
+interface Ethernet105/1/3
+  switchport mode trunk
+  switchport access vlan 540
+  switchport trunk native vlan 611
+  flowcontrol receive on
+  no shutdown
+
+interface Ethernet105/1/4
+  switchport mode trunk
+  switchport access vlan 540
+  switchport trunk native vlan 611
+  flowcontrol receive on
+  no shutdown
+
+interface Ethernet105/1/5
+  switchport mode trunk
+  switchport access vlan 540
+  switchport trunk native vlan 611
+  flowcontrol receive on
+  no shutdown
+
+interface Ethernet105/1/6
+  switchport mode trunk
+  switchport access vlan 540
+  switchport trunk native vlan 611
+  flowcontrol receive on
+  no shutdown
+
+interface Ethernet105/1/7
+  switchport mode trunk
+  switchport access vlan 540
+  switchport trunk native vlan 611
+  flowcontrol receive on
+  no shutdown
+
+interface Ethernet105/1/8
+  switchport mode trunk
+  switchport access vlan 540
+  switchport trunk native vlan 611
+  flowcontrol receive on
+  no shutdown
+
+interface Ethernet105/1/9
+  lacp port-priority 500 
+  switchport access vlan 325
+  channel-group 7 mode active
+  no shutdown
+
+interface Ethernet105/1/10
+  lacp port-priority 500 
+  switchport access vlan 325
+  channel-group 7 mode active
+  no shutdown
+
+interface Ethernet105/1/11
+  lacp port-priority 500 
+  switchport access vlan 325
+  channel-group 8 mode active
+  no shutdown
+
+interface Ethernet105/1/12
+  lacp port-priority 500 
+  switchport access vlan 325
+  channel-group 8 mode active
+  no shutdown
+
+interface Ethernet105/1/13
+  switchport access vlan 613
+  no shutdown
+
+interface Ethernet105/1/14
+  switchport access vlan 613
+  no shutdown
+
+interface Ethernet105/1/15
+  switchport access vlan 325
+
+interface Ethernet105/1/16
+
+interface Ethernet105/1/17
+  switchport access vlan 325
+
+interface Ethernet105/1/18
+
+interface Ethernet105/1/19
+  switchport access vlan 325
+
+interface Ethernet105/1/20
+  switchport access vlan 325
+
+interface Ethernet105/1/21
+
+interface Ethernet105/1/22
+
+interface Ethernet105/1/23
+
+interface Ethernet105/1/24
+
+interface Ethernet105/1/25
+
+interface Ethernet105/1/26
+
+interface Ethernet105/1/27
+
+interface Ethernet105/1/28
+
+interface Ethernet105/1/29
+
+interface Ethernet105/1/30
+
+interface Ethernet105/1/31
+
+interface Ethernet105/1/32
+
+interface Ethernet105/1/33
+
+interface Ethernet105/1/34
+
+interface Ethernet105/1/35
+
+interface Ethernet105/1/36
+
+interface Ethernet105/1/37
+
+interface Ethernet105/1/38
+
+interface Ethernet105/1/39
+
+interface Ethernet105/1/40
+
+interface Ethernet105/1/41
+
+interface Ethernet105/1/42
+
+interface Ethernet105/1/43
+
+interface Ethernet105/1/44
+
+interface Ethernet105/1/45
+
+interface Ethernet105/1/46
+
+interface Ethernet105/1/47
+
+interface Ethernet105/1/48
+
+interface Ethernet108/1/1
+  switchport access vlan 306
+  no shutdown
+
+interface Ethernet108/1/2
+  switchport access vlan 306
+  no shutdown
+
+interface Ethernet108/1/3
+  switchport access vlan 306
+  no shutdown
+
+interface Ethernet108/1/4
+  switchport access vlan 306
+  no shutdown
+
+interface Ethernet108/1/5
+  switchport access vlan 306
+  no shutdown
+
+interface Ethernet108/1/6
+  switchport access vlan 306
+  no shutdown
+
+interface Ethernet108/1/7
+  switchport access vlan 306
+  no shutdown
+
+interface Ethernet108/1/8
+  switchport access vlan 306
+  no shutdown
+
+interface Ethernet108/1/9
+  switchport access vlan 306
+  no shutdown
+
+interface Ethernet108/1/10
+  switchport access vlan 306
+  no shutdown
+
+interface Ethernet108/1/11
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/12
+  description itsusraenc3cDF64
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/13
+  description itsusraenc3cDF64
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/14
+  description itsusraenc2df64
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/15
+  description itsusraenc2df64
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/16
+  description itsusraenc1df64
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/17
+  description itsusraenc1df64
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/18
+  description ITSUSRAENC4CDF63
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/19
+  description ITSUSRAENC4CDF63
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/20
+  description ITSUSRAENC3CDF63
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/21
+  description ITSUSRAENC3CDF63
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/22
+  description ITSUSRAENC2CDF63
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/23
+  description ITSUSRAENC2CDF63
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/24
+  description ITSUSRAENC1CDF63
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/25
+  description ITSUSRAENC1CDF63  
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/26
+  description ITSUSRAENC4CDF62
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/27
+  description ITSUSRAENC4CDF62
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/28
+  description ITSUSRAENC3CDF62
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/29
+  description ITSUSRAENC3CDF62
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/30
+  description ITSUSRAENC2CDF62
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/31
+  description ITSUSRAENC2CDF62
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/32
+  description ITSUSRAENC1CDF62 
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/33
+  description ITSUSRAENC1CDF62 
+  switchport mode trunk
+  switchport trunk native vlan 900
+  spanning-tree guard root
+  no shutdown
+
+interface Ethernet108/1/34
+
+interface Ethernet108/1/35
+
+interface Ethernet108/1/36
+
+interface Ethernet108/1/37
+
+interface Ethernet108/1/38
+
+interface Ethernet108/1/39
+
+interface Ethernet108/1/40
+
+interface Ethernet108/1/41
+
+interface Ethernet108/1/42
+
+interface Ethernet108/1/43
+
+interface Ethernet108/1/44
+
+interface Ethernet108/1/45
+
+interface Ethernet108/1/46
+
+interface Ethernet108/1/47
+
+interface Ethernet108/1/48
+line console
+line vty
+boot kickstart bootflash:/n7000-s1-kickstart.6.2.12.bin sup-1
+boot system bootflash:/n7000-s1-dk9.6.2.12.bin sup-1
+boot kickstart bootflash:/n7000-s1-kickstart.6.2.12.bin sup-2
+boot system bootflash:/n7000-s1-dk9.6.2.12.bin sup-2
+router eigrp 1
+  passive-interface default
+  redistribute static route-map static-default
+  redistribute eigrp 1003 route-map static-default
+router eigrp 1003
+  passive-interface default
+  network 10.0.0.0/16
+  redistribute eigrp 1 route-map SDDC-LAB-EIGRP
+router bgp 64512
+  neighbor 10.0.13.235
+  neighbor 10.0.14.231 remote-as 65002
+    address-family ipv4 unicast
+      default-originate
+  neighbor 10.0.14.235 remote-as 65002
+    address-family ipv4 unicast
+      default-originate
+no system auto-upgrade epld
+
+
